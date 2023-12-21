@@ -1,26 +1,26 @@
 "use client"
 
-import React, { useMemo, useCallback } from "react"
-import _ from "lodash"
+import React, { useCallback } from "react"
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs'
 import useThemeToggle from "@/hooks/useThemeToggle"
 
-/**
- * ThemeSwitcher component.
- * 
- * Renders a button to toggle between light and dark theme.
- * Uses useThemeToggle hook to get theme state and toggle handler.
- * Renders moon or sun icon based on current theme.
- * Debounces theme toggle handler to prevent rapid toggling.
- */
-const ThemeSwitcher = React.memo(() => {
+const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    return (...args: Parameters<T>) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    };
+};
+
+const ThemeSwitcher = () => {
     const { theme, toggleTheme } = useThemeToggle()
 
-    const Icon = useMemo(() => {
-        return theme === 'light' ? BsMoonStarsFill : BsSunFill
-    }, [theme])
+    const Icon = theme === 'light' ? BsMoonStarsFill : BsSunFill
 
-    const debounceHandleThemeChange = useCallback(_.debounce(toggleTheme, 500), [toggleTheme])
+    const debounceHandleThemeChange = useCallback(debounce(toggleTheme, 500), [toggleTheme])
 
     return (
         <button
@@ -31,6 +31,6 @@ const ThemeSwitcher = React.memo(() => {
             <Icon />
         </button>
     )
-})
+}
 
 export default ThemeSwitcher
