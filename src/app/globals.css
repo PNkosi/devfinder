@@ -1,27 +1,30 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background: #FEFEFE;
+  --foreground: #141C2F;
+  --primary: #0079FE;
+  --bluish-gray: #e8eaf0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+
+.dark {
+  --background: #141C2F;
+  --foreground: #FEFEFE;
+  --primary: #0079FE;
+  --bluish-gray: #1F2A48;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
   }
+
+}
+.container {
+  @apply md:max-w-[768px] mx-auto;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
